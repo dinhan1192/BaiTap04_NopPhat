@@ -1,0 +1,129 @@
+﻿@model IEnumerable<BaiTap04_InMemory_NopPhat.Models.PunishFiled>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<p>
+    <input type="text" name="dateRange" value="@ViewBag.startDate - @ViewBag.endDate" />
+    @*@Html.TextBox("dateRange", @ViewBag.startDate, new { @class = "form-control"})*@
+    Start: @ViewBag.startDate End: @ViewBag.endDate
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RollNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PunishTypeId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AmountOfPunished)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfPunishFiled)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RollNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PunishTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AmountOfPunished)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfPunishFiled)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div>
+    <p>
+        Tổng số tiền nộp phạt: @ViewBag.totalMoney
+    </p>
+</div>
+<div>
+    <p>
+        Tổng số chống đẩy: @ViewBag.totalPush
+    </p>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        var start = moment().subtract(29, 'days');
+        console.log(start);
+        var end = moment();
+        var newStartDate;
+        var newEndDate;
+
+        if (newStartDate == null) {
+            newStartDate = start;
+        }
+        if (newStartDate != null) {
+            newStartDate = '@(ViewBag.startDate)';
+            newStartDate = new Date(newStartDate.split("/").reverse().join("/"));
+            console.log(newStartDate);
+        }
+        if (newEndDate == null) {
+            newEndDate = end;
+        }
+        if (newEndDate != null) {
+            newEndDate = '@(ViewBag.endDate)';
+            newEndDate = new Date(newEndDate.split("/").reverse().join("/"));
+            console.log(newEndDate);
+        }
+
+        //function cb(newStartDate, newEndDate) {
+        //    $('input[name="dateRange"]').html(newStartDate.format('MMMM D, YYYY') + ' - ' + newEndDate.format('MMMM D, YYYY'));
+        //    //console.log(newStartDate.format('MMMM D, YYYY') + ' - ' + newEndDate.format('MMMM D, YYYY'));
+        //}
+
+        $('input[name="dateRange"]').daterangepicker({
+            startDate: newStartDate,
+            endDate: newEndDate,
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        });
+
+        $('input[name="dateRange"]').on('apply.daterangepicker', function (ev, picker) {
+            newStartDate = picker.startDate;
+            newEndDate = picker.endDate;
+            window.location.href = `/PunishFiledsDb/Index?start=${newStartDate.format("D/MM/YYYY")}&end=${newEndDate.format("D/MM/YYYY")}`;
+            //console.log(newStartDate.format('MMMM D, YYYY') + ' - ' + newEndDate.format('MMMM D, YYYY'));
+            //console.log("123");
+            //this.outerHTML = newStartDate.format("D/MM/YYYY") + ' - ' + newEndDate.format("D/MM/YYYY");
+        });
+
+        //$('input[name="dateRange"]').html(newStartDate.format('MMMM D, YYYY') + ' - ' + newEndDate.format('MMMM D, YYYY'));
+        //console.log(newStartDate.format('MMMM D, YYYY') + ' - ' + newEndDate.format('MMMM D, YYYY'));
+
+        //cb(newStartDate, newEndDate);
+
+    </script>
+}

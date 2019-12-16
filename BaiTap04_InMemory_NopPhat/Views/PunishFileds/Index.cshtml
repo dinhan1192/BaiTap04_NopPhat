@@ -1,0 +1,63 @@
+﻿@model IEnumerable<BaiTap04_InMemory_NopPhat.Models.PunishFiled>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RollNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PunishTypeId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AmountOfPunished)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfPunishFiled)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RollNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PunishTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AmountOfPunished)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfPunishFiled)
+            </td>
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                </td>*@
+        </tr>
+    }
+</table>
+
+<div>
+    <p>
+        Tổng số tiền nộp phạt: @ViewBag.totalMoney
+    </p>
+</div>
+<div>
+    <p>
+        Tổng số chống đẩy: @ViewBag.totalPush
+    </p>
+</div>
